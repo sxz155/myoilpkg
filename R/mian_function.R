@@ -3,7 +3,7 @@
 #' @param input_data A data frame as raw input.
 #' @return A list containing a list of meta data and a data frame including all
 #'   the raw input and new transformations.
-#' @description Interactive function to ask users for their coice of input and
+#' @description Interactive function to ask users for their choice of input and
 #'   transformations.
 main_fun <- function(input_data = default_input_data) {
   ui_info("oil data is the raw input. If you want to use other dataframes,
