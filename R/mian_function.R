@@ -8,6 +8,7 @@
 main_fun <- function(input_data = default_input_data) {
   ui_info("oil data is the raw input. If you want to use other dataframes,
           please load it as the input data!")
+  time_len <- nrow(input_data)
   ui_info("I can proceed with column name or comlun index!")
   if (ui_yeah("Do you want to proceed with column name?",
     yes = "Yes",
@@ -97,8 +98,15 @@ main_fun <- function(input_data = default_input_data) {
         ui_info(
           "Please provide a number as the window for rolling standard deviation:
           ")
+        ui_info("Window can only be between 2 and {ui_value(time_len)}!")
         win <- as.numeric(readline(prompt = "Window: "))
-        output_driver <- rolling_sd(input_entry, win)
+
+        if (1 < win & win <= time_len) {
+          output_driver <- rolling_sd(input_entry, win)
+        } else {
+          ui_stop("Window can only be between 2 and {ui_value(time_len)}!")
+        }
+
         ui_done("Rolling standard deviation is calculated!")
         normality_test <- shapiro.test(output_driver)
         stationarity_test <- adf.test(na.omit(output_driver))
@@ -120,8 +128,15 @@ main_fun <- function(input_data = default_input_data) {
 
       if (selection == 2) {
         ui_info("Please provide a number as the window for rolling mean:")
+        ui_info("Window can only be between 2 and {ui_value(time_len)}!")
         win <- as.numeric(readline(prompt = "Window: "))
-        output_driver <- rolling_mean(input_entry, win)
+
+        if (0 < win & win <= time_len) {
+          output_driver <- rolling_mean(input_entry, win)
+        } else {
+          ui_stop("Window can only be between 1 and {ui_value(time_len)}!")
+        }
+
         ui_done("Rolling mean is calculated!")
         normality_test <- shapiro.test(output_driver)
         stationarity_test <- adf.test(na.omit(output_driver))
@@ -143,8 +158,15 @@ main_fun <- function(input_data = default_input_data) {
 
       if (selection == 3) {
         ui_info("Please provide a number as the lag:")
+        ui_info("Lag order can only be between 1 and {ui_value(time_len-1)}!")
         order_lag <- as.numeric(readline(prompt = "Lag: "))
-        output_driver <- lag_fun(input_entry, order_lag)
+
+        if (0 < order_lag & order_lag < time_len) {
+          output_driver <- lag_fun(input_entry, order_lag)
+        } else {
+          ui_stop("Lag order can only be between 1 and {ui_value(time_len-1)}!")
+        }
+
         ui_done(paste0("Lag ", order_lag, " is calculated!"))
         normality_test <- shapiro.test(output_driver)
         stationarity_test <- adf.test(na.omit(output_driver))
@@ -166,8 +188,15 @@ main_fun <- function(input_data = default_input_data) {
 
       if (selection == 4) {
         ui_info("Please provide a number as the lead:")
+        ui_info("Lead order can only be between 1 and {ui_value(time_len-1)}!")
         order_lead <- as.numeric(readline(prompt = "Lead: "))
-        output_driver <- lead_fun(input_entry, order_lead)
+
+        if (0 < order_lead & order_lead < time_len) {
+          output_driver <- lead_fun(input_entry, order_lead)
+        } else {
+          ui_stop("Lead order can only be between 1 and {ui_value(time_len-1)}!")
+        }
+
         ui_done(paste0("Lead ", order_lead, " is calculated!"))
         normality_test <- shapiro.test(output_driver)
         stationarity_test <- adf.test(na.omit(output_driver))
@@ -210,7 +239,7 @@ main_fun <- function(input_data = default_input_data) {
 
       if (selection == 6) {
         ui_info(
-          "Please provide the column index or name of the second inputdriver."
+          "Please provide the column index or name of the second input driver."
         )
         column_numbers <- ncol(input_data)
         ui_info("There are {ui_value(column_numbers)} columns in the input
@@ -231,6 +260,8 @@ main_fun <- function(input_data = default_input_data) {
           col_name_2 <- readline(prompt = "Enter column name: ")
           output_driver <- spread_fun(input_entry, input_data[, col_name_2])
           col_index_2 <- which(colnames(input_data) == col_name_2)
+        } else {
+          ui_stop("Need a second input driver!")
         }
 
         ui_done("Spread between input driver 1 and 2 is calculated!")
@@ -282,6 +313,8 @@ main_fun <- function(input_data = default_input_data) {
           col_name_2 <- readline(prompt = "Enter column name: ")
           output_driver <- ratio_fun(input_entry, input_data[, col_name_2])
           col_index_2 <- which(colnames(input_data) == col_name_2)
+        } else {
+          ui_stop("Need a second input driver!")
         }
 
         ui_done("Ratio between input driver 1 and 2 is calculated!")
@@ -333,7 +366,10 @@ main_fun <- function(input_data = default_input_data) {
           col_name_2 <- readline(prompt = "Enter column name: ")
           output_driver <- prod_fun(input_entry, input_data[, col_name_2])
           col_index_2 <- which(colnames(input_data) == col_name_2)
+        } else {
+          ui_stop("Need a second input driver!")
         }
+
         ui_done("Product of input driver 1 and 2 is calculated!")
 
         normality_test <- shapiro.test(output_driver)
