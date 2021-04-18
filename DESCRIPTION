@@ -1,21 +1,24 @@
 Package: myoilpkg
-Title: What the Package Does (One Line, Title Case)
+Title: Add additional drivers as a result of transformations on oil data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Sahar",
+           family = "Zarmehri",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "sahar.zarmehri@gmail.com",
+           comment = c(ORCID = "https://orcid.org/0000-0002-2032-9474"))
+Description: This package performs a set of user defined transformations on the 
+  oil data (or any other prodvided time series data frame). It gives the option 
+  to choose from different olumns of the data and type of transformations.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Suggests: 
-    MASS,
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
+Imports: 
+  gamlss,
+  usethis,
+  zoo,
+  tseries
 Depends: 
-    R (>= 2.10)
+    R (>= 3.1.0)
